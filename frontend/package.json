@@ -2,15 +2,25 @@
   "name": "civref",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc",
+    "run": "node ."
   },
+  "main": "build/index.js",
+  "type": "module",
   "author": "stzups",
   "license": "",
-  "devDependencies": {
+  "dependencies": {
     "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.2",
+    "@rollup/plugin-typescript": "^8.2.3",
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
     "rollup": "^2.53.3",
+    "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.3.5"
   }
 }
