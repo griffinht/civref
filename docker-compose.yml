@@ -3,8 +3,8 @@ services:
     image: nginx
     volumes:
       - ./frontend/nginx.conf:/etc/nginx/nginx.conf
-      # hacky solution for typescript files in the build directory
       - ./frontend/src/:/etc/nginx/src
+      # hacky solution for compiled typescript files
       - ./frontend/build/:/etc/nginx/build
     ports:
       - 8080:80
