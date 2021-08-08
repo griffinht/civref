@@ -8,3 +8,7 @@ services:
       - ./frontend/build/:/etc/nginx/build
     ports:
       - 8080:80
+  converter:
+    image: converter
+    build:
+      context: converter
