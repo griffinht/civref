@@ -1,4 +1,16 @@
-package-lock.json
-node_modules
-.idea
 build
+
+# Node
+node_modules
+package-lock.json
+
+# Intellij
+.idea
+
+# Grade
+.gradle
+
+# Gradle binaries
+gradle
+gradlew
+gradlew.bat
