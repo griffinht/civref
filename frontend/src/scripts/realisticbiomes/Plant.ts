@@ -23,4 +23,10 @@ export default class Plant {
         this.yields = yields
         this.persistentGrowthPeriod = persistentGrowthPeriod
     }
+
+    getElement(): HTMLElement {
+        let element = document.createElement('p')
+        element.innerHTML = "hello"
+        return element
+    }
 }

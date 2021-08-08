@@ -1,4 +1,4 @@
-import Item from "./Item";
+import Item from "./Item.js";
 
 const Items = {
     WHEAT_SEEDS: new Item(0, 'Wheat Seeds'),

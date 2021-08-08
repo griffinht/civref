@@ -1,14 +1,11 @@
-import Plant from "./realisticbiomes/Plant";
-import Items from "./minecraft/Items";
-import Blocks from "./minecraft/Blocks";
-import Yield from "./realisticbiomes/Yield";
+import Plant from "./realisticbiomes/Plant.js";
+import Items from "./minecraft/Items.js";
+import Blocks from "./minecraft/Blocks.js";
+import Yield from "./realisticbiomes/Yield.js";
 
-let input: HTMLInputElement = document.getElementById('input') as HTMLInputElement
-let output: HTMLDivElement = document.getElementById('output') as HTMLDivElement
+let output: HTMLDivElement = document.getElementById('plants') as HTMLDivElement
 
-input.addEventListener('change', () => {
-    console.log(input)
-})
+
 
 let wheat = new Plant(
         Items.WHEAT_SEEDS,
@@ -21,3 +18,4 @@ let wheat = new Plant(
         3
     )
 
+output.append(wheat.getElement())

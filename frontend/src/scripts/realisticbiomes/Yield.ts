@@ -1,4 +1,4 @@
-import Item from "../minecraft/Item";
+import Item from "../minecraft/Item.js";
 
 export default class Yield {
     start: number
