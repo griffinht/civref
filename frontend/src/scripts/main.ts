@@ -12,7 +12,7 @@ let wheat = new Plant(
         Blocks.WHEAT,
         [
             new Yield(0, 6, Items.WHEAT_SEEDS, 1),
-            new Yield(7, 7, Items.WHEAT_SEEDS, 2.5),//todo find real average https://minecraft.fandom.com/wiki/Wheat_Seeds#Breaking
+            new Yield(7, 7, Items.WHEAT_SEEDS, 2.535),//todo find real average https://minecraft.fandom.com/wiki/Wheat_Seeds#Breaking
             new Yield(7, 7, Items.WHEAT, 1),
         ],
         3
