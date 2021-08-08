@@ -4,11 +4,10 @@
     "module": "esnext",
     "allowJs": false,
     "inlineSourceMap": true,
-    "outDir": "./build",
+    "outDir": "./build/scripts",
     "strict": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "jsx": "react"
-    // "esModuleInterop": true,                        /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
-  }
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }

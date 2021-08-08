@@ -3,9 +3,9 @@ import typescript from '@rollup/plugin-typescript';
 import {terser} from "rollup-plugin-terser";
 
 export default {
-    input: 'src/index.tsx',
+    input: 'src/scripts/main.ts',
     output: {
-        file: 'build/index.js',
+        file: 'build/scripts/main.js',
         format: 'esnext'
     },
     plugins: [
