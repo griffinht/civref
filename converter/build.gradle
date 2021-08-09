@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.29'
+    implementation group: 'io.netty', name: 'netty-buffer', version: '4.1.66.Final'
 }
 
 application {
