@@ -1,13 +1,24 @@
 package net.stzups.civref.converter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import org.yaml.snakeyaml.Yaml;
 
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class Converter {
-    public static void main(String[] args) throws IOException {
-        RealisticBiomes realisticBiomes = new ObjectMapper(new YAMLFactory()).readValue(System.in, RealisticBiomes.class);
-        System.out.print(realisticBiomes);
+    public static void main(String[] args) throws FileNotFoundException {
+        System.err.println("hello");
+        if (args.length > 0) {
+            for (String arg : args) {
+                parse(new FileInputStream(arg));
+            }
+        } else {
+            parse(System.in);
+        }
+    }
+
+    private static void parse(InputStream inputStream) {
+        new RealisticBiomes(new Yaml().load(inputStream));
     }
 }

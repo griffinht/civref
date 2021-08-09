@@ -1,19 +1,31 @@
 package net.stzups.civref.converter;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import net.stzups.civref.converter.minecraft.Biome;
-
+import java.util.HashMap;
 import java.util.Map;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class RealisticBiomes {
-    @JsonProperty("biome_aliases")
-    private Map<String, Biome[]> biomeAliases;
+    private Map<String, String[]> biomeAliases;
+    private Map<String, Plant> plants = new HashMap<>();
 
-    @Override
-    public String toString() {
-        return "biomeAliases=" + biomeAliases;
+    public RealisticBiomes(Map<String, ?>  realisticBiomes) {
+        this.biomeAliases = (Map<String, String[]>) realisticBiomes.get("biome_aliases");
+        for (Map.Entry<String, Map<String, ?>> entry : ((Map<String, Map<String, ?>>)realisticBiomes.get("plants")).entrySet()) {
+            plants.put(entry.getKey(), new Plant(entry.getValue()));
+        }
     }
 }
 
+class Plant {
+    private String persistentGrowthPeriod;
+
+    public Plant(Map<String, ?> plant) {
+        Object object = plant.get("persistent_growth_period");
+        if (object instanceof String) {
+            persistentGrowthPeriod = (String) object;
+        } else if (object instanceof Integer) {
+            persistentGrowthPeriod = ((Integer) object).toString();
+        } else {
+            throw new ClassCastException(object + " is not a " + String.class + " or " + Integer.class);
+        }
+    }
+}
