@@ -6,4 +6,10 @@ export default class Item {
         this.id = id
         this.name = name
     }
+
+    getElement(): HTMLElement {
+        let element = document.createElement('div')
+        element.innerText = 'Item: ' + this.name
+        return element
+    }
 }

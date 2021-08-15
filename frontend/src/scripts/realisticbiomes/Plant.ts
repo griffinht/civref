@@ -1,6 +1,7 @@
-import Item from "../minecraft/Item";
-import Block from "../minecraft/Block";
-import Yield from "./Yield";
+import Item from "../minecraft/Item.js";
+import Block from "../minecraft/Block.js";
+import Yield from "./Yield.js";
+import Info from "../html/Info.js";
 
 export default class Plant {
     /**
@@ -25,8 +26,15 @@ export default class Plant {
     }
 
     getElement(): HTMLElement {
-        let element = document.createElement('p')
-        element.innerHTML = "hello"
+        let element = document.createElement('div')
+        element.append(new Info('Plant').getElement())
+        element.append(this.seed.getElement())
+        element.append(this.crop.getElement())
+        let list = document.createElement('div')
+        for (let yields of this.yields) {
+            list.append(yields.getElement())
+        }
+        element.append(new Info('Persistent growth: ' + this.persistentGrowthPeriod).getElement())
         return element
     }
 }

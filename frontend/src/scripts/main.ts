@@ -3,7 +3,7 @@ import Items from "./minecraft/Items.js";
 import Blocks from "./minecraft/Blocks.js";
 import Yield from "./realisticbiomes/Yield.js";
 
-let output: HTMLDivElement = document.getElementById('plants') as HTMLDivElement
+let output = document.getElementById('plants') as HTMLElement
 
 
 
@@ -17,5 +17,14 @@ let wheat = new Plant(
         ],
         3
     )
+let potatoes = new Plant(
+    Items.WHEAT_SEEDS,
+    Blocks.WHEAT,
+    [
+        new Yield(0, 0, Items.WHEAT_SEEDS, 1)
+    ],
+    3
+)
 
 output.append(wheat.getElement())
+output.append(potatoes.getElement())
