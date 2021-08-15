@@ -1,36 +1,48 @@
 #!/bin/bash
 
-# check if $0 is set, otherwise set $0 with a default value
-set() {
-  if [ -z ${$0+x} ]; then $0=$1
-}
-
 realisticBiomesConfigUrl=https://raw.githubusercontent.com/CivClassic/AnsibleSetup/master/templates/public/plugins/RealisticBiomes/config.yml.j2
-#converter=converter.jar
 convertRealisticBiomes() {
-  set "converter" "converter.jar"
+  if [[ -z ${converter+x} ]]; then converter=converter.jar; fi
   curl "$realisticBiomesConfigUrl" | java -jar $converter > output
 }
 
 launcherMetaUrl=https://launchermeta.mojang.com/mc/game/version_manifest.json
-# jq command or minecraft version
-# mcVersion=.latest.release
-# mcVersion=1.17.1
-mcVersion=.latest.release
-convertTextures() {
-  launcherMeta=$(curl "$launcherMetaUrl")
-  # $mcVersion=.latest.release
-  $mcVersionUrl=$(echo $launcherMeta | jq '.$mcVersion')
-  # $mcVersion=1.17.1
-  if [ $mcVersionUrl == "null" ]; then
-    $mcVersionUrl=$(echo "$launcherMeta" | jq '.versions[] | select(.id=="1.17.1").url')
 
-    if [ $mcVersionUrl == "" ]; then
-      echo "Minecraft version $mcVersion not found from $launcherMetaUrl"
-      exit 1
-    fi
+# $1=id
+# jq command or minecraft version
+# id=latest.release
+# id=1.17.1
+convertTextures() {
+  id=$1
+  if [[ -z ${id} ]]; then id=latest.release; fi
+  echo "finding id $id"
+
+  launcherMeta=$(curl -s "$launcherMetaUrl")
+  # check for valid json response
+  if ! echo $launcherMeta | jq > /dev/null; then
+    echo "couldn't get launcher meta from $launcherMetaUrl"
+    exit 1
   fi
 
-  echo $mcVersionUrl
+  echo ".$id"
+  echo '.$id'
+  id_=$(echo $launcherMeta | jq --arg "$id" '."$id"')
+  #echo "id_: $id_"
+
+  if [[ $id_ == "null" ]]; then
+    id_=$id
+  fi
+
+  #echo "id_s: $id_"
+
+  version=$(echo "$launcherMeta" | jq --arg id_ "$id_" '.versions[] | select(.id=="$id_")')
+
+  if [[ -z ${version} ]]; then
+    echo "version $id not found from $launcherMetaUrl"
+    exit 1
+  fi
+
+  echo "version: $version"
 }
 
+convertTextures
