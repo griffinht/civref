@@ -56,7 +56,7 @@ convertTextures() {
   #
 
   version=$(mktemp)
-  # todo error handle
+  # todo error handle (if statement never happens)
   if ! curl -s "$versionUrl" | jq '.downloads.client' > "$version"; then
     echo "couldn't get launcher meta from $versionUrl"
     exit 1
