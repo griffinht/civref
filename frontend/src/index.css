@@ -1,8 +1,8 @@
-.tooltip .tooltip-hover {
+.tooltip > .tooltip-hover {
     display: none;
 }
 
-.tooltip:hover .tooltip-hover {
+.tooltip:hover > .tooltip-hover {
     display: block;
     position: fixed;
     overflow: hidden;
