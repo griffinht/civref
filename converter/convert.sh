@@ -24,7 +24,7 @@ convertTextures() {
   fi
 
   # check for valid jq expression (and ignore errors)
-  if id_=$(echo "$launcherMeta" | jq "$id" 2>/dev/null); then
+  if id_=$(echo "$launcherMeta" | jq -r "$id" 2>/dev/null); then
     # $id=.latest.release
     # $id_="1.17.1"
     if [[ $id_ == "null" ]]; then
@@ -32,20 +32,39 @@ convertTextures() {
       exit 1
     fi
   else
-    # $id=1.17.1
-    id_="\"$id\""
-    # $id_="1.17.1"
+    id_="$id"
   fi
 
-  # $id_ must be wrapped in quotes
-  versionUrl=$(echo "$launcherMeta" | jq ".versions[] | select(.id==$id_).url")
+  versionUrl=$(echo "$launcherMeta" | jq -r ".versions[] | select(.id==\"$id_\").url")
 
   if [[ -z ${versionUrl} ]]; then
     echo "version $id not found from $launcherMetaUrl"
     exit 1
   fi
 
-  echo "version: $versionUrl"
+
+
+  version=$(curl -s "$versionUrl")
+
+  # check for valid json response
+  if ! echo $version | jq > /dev/null; then
+    echo "couldn't get launcher meta from $versionUrl"
+    exit 1
+  fi
+
+  clientJson=$(echo "$version" | jq '.downloads.client')
+  client=$(mktemp)
+  curl -s $(echo "$clientJson" | jq -r '.url') > $client
+
+  # check actual sha1 against give sha1
+  sha1VersionUrl=$(echo "$clientJson" | jq -r '.sha1')
+  sha1=$(cat $client | sha1sum | head -c 40)
+  if [[ $sha1VersionUrl != $sha1 ]]; then
+    echo "sha1 does not match"
+    echo "$sha1VersionUrl (given sha1 from $versionUrl)"
+    echo "$sha1 (actual sha1 of downloaded file)"
+    exit 1
+  fi
 }
 
 convertTextures
