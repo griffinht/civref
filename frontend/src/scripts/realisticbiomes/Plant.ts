@@ -2,6 +2,7 @@ import Item from "../minecraft/Item.js";
 import Block from "../minecraft/Block.js";
 import Yield from "./Yield.js";
 import Element from "../html/Element.js";
+import HtmlElement from "../html/HtmlElement.js";
 
 export default class Plant implements Element {
     name: string
@@ -31,7 +32,7 @@ export default class Plant implements Element {
         let element = document.createElement('div')
         element.style.border = '1px solid black'
         element.style.margin = '1px'
-        element.append(new Info(this.name + ' (Plant)').getElement())
+        element.append(new HtmlElement('h4', this.name + ' (Plant)').getElement())
         element.append(this.seed.getElement())
         element.append(this.crop.getElement())
         let list = document.createElement('div')
@@ -41,7 +42,7 @@ export default class Plant implements Element {
         element.append(list)
         //new Tooltip(list).attach(element)
         element.append(list)
-        element.append(new Info('Persistent growth: ' + this.persistentGrowthPeriod).getElement())
+        element.append(new HtmlElement('h4', 'Persistent growth: ' + this.persistentGrowthPeriod).getElement())
         return element
     }
 }
