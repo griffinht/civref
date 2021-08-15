@@ -63,7 +63,7 @@ convertTextures() {
   fi
 
   client=$(mktemp)
-  curl -s $(< "$version" jq -r '.url') > "$client"
+  curl -s "$(< "$version" jq -r '.url')" > "$client"
 
   # check actual sha1 against give sha1
   sha1VersionUrl=$(< "$version" jq -r '.sha1')
