@@ -23,8 +23,8 @@ convertTextures() {
     exit 1
   fi
 
-  # check for valid jq expression
-  if id_=$(echo "$launcherMeta" | jq "$id"); then
+  # check for valid jq expression (and ignore errors)
+  if id_=$(echo "$launcherMeta" | jq "$id" 2>/dev/null); then
     # $id=.latest.release
     # $id_="1.17.1"
     if [[ $id_ == "null" ]]; then
@@ -38,14 +38,14 @@ convertTextures() {
   fi
 
   # $id_ must be wrapped in quotes
-  version=$(echo "$launcherMeta" | jq ".versions[] | select(.id==$id_)")
+  versionUrl=$(echo "$launcherMeta" | jq ".versions[] | select(.id==$id_).url")
 
-  if [[ -z ${version} ]]; then
+  if [[ -z ${versionUrl} ]]; then
     echo "version $id not found from $launcherMetaUrl"
     exit 1
   fi
 
-  echo "version: $version"
+  echo "version: $versionUrl"
 }
 
 convertTextures
