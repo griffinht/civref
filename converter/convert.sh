@@ -46,6 +46,7 @@ convertTextures() {
 
 
   version=$(mktemp)
+  # todo error handle
   if ! curl -s "$versionUrl" | jq '.downloads.client' > $version; then
     echo "couldn't get launcher meta from $versionUrl"
     exit 1
@@ -63,6 +64,10 @@ convertTextures() {
     echo "$sha1 (actual sha1 of downloaded file)"
     exit 1
   fi
+
+  clientDir=$(mktemp -d)
+  unzip -q -d $clientDir $client
+  ls $clientDir/assets
 }
 
 convertTextures
