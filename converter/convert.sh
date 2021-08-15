@@ -15,7 +15,6 @@ launcherMetaUrl=https://launchermeta.mojang.com/mc/game/version_manifest.json
 convertTextures() {
   id=$1
   if [[ -z ${id} ]]; then id=latest.release; fi
-  echo "finding id $id"
 
   launcherMeta=$(curl -s "$launcherMetaUrl")
   # check for valid json response
@@ -24,10 +23,8 @@ convertTextures() {
     exit 1
   fi
 
-  echo ".$id"
-  echo '.$id'
-  id_=$(echo $launcherMeta | jq --arg "$id" '."$id"')
-  #echo "id_: $id_"
+  id_=$(echo "$launcherMeta" | jq ".$id")
+  echo "id_: $id_"
 
   if [[ $id_ == "null" ]]; then
     id_=$id
