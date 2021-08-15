@@ -3,6 +3,7 @@ import Block from "../minecraft/Block.js";
 import Yield from "./Yield.js";
 import Element from "../html/Element.js";
 import HtmlElement from "../html/HtmlElement.js";
+import Yields from "../html/Yields.js";
 
 export default class Plant implements Element {
     name: string
@@ -17,10 +18,10 @@ export default class Plant implements Element {
     /**
      * item dropped by the crop, dependent on growth rate
      */
-    yields: Yield[]
+    yields: Yields
     persistentGrowthPeriod: number
 
-    constructor(name: string, seed: Item, crop: Block, yields: Yield[], persistentGrowthPeriod: number) {
+    constructor(name: string, seed: Item, crop: Block, yields: Yields, persistentGrowthPeriod: number) {
         this.name = name
         this.seed = seed
         this.crop = crop
@@ -35,13 +36,8 @@ export default class Plant implements Element {
         element.append(new HtmlElement('h4', this.name + ' (Plant)').getElement())
         element.append(this.seed.getElement())
         element.append(this.crop.getElement())
-        let list = document.createElement('div')
-        for (let yields of this.yields) {
-            list.append(yields.getElement())
-        }
-        element.append(list)
+        element.append(this.yields.getElement())
         //new Tooltip(list).attach(element)
-        element.append(list)
         element.append(new HtmlElement('h4', 'Persistent growth: ' + this.persistentGrowthPeriod).getElement())
         return element
     }
