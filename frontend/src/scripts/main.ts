@@ -2,6 +2,7 @@ import Plant from "./realisticbiomes/Plant.js";
 import Items from "./minecraft/Items.js";
 import Blocks from "./minecraft/Blocks.js";
 import Yield from "./realisticbiomes/Yield.js";
+import Flexbox from "./html/Flexbox.js";
 
 let output = document.getElementById('plants') as HTMLElement
 
@@ -26,5 +27,8 @@ let potatoes = new Plant(
     3
 )
 
-output.append(wheat.getElement())
-output.append(potatoes.getElement())
+output.append(
+    new Flexbox()
+        .append(wheat.getElement())
+        .append(potatoes.getElement())
+    .getElement())

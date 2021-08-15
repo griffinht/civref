@@ -34,6 +34,7 @@ export default class Plant {
         for (let yields of this.yields) {
             list.append(yields.getElement())
         }
+        element.append(list)
         element.append(new Info('Persistent growth: ' + this.persistentGrowthPeriod).getElement())
         return element
     }
