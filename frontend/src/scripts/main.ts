@@ -4,8 +4,8 @@ import Blocks from "./minecraft/Blocks.js";
 import Yield from "./realisticbiomes/Yield.js";
 import Flexbox from "./html/Flexbox.js";
 
-let output = document.getElementById('plants') as HTMLElement
-
+let output = document.createElement('plants')
+document.body.append(output)
 
 let plants: Plant[] = [
     new Plant(
