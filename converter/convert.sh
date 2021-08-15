@@ -9,12 +9,12 @@ convertRealisticBiomes() {
 launcherMetaUrl=https://launchermeta.mojang.com/mc/game/version_manifest.json
 
 # $1=id
-# jq command or minecraft version
+# jq expression or minecraft version
 # id=latest.release
 # id=1.17.1
 convertTextures() {
   id=$1
-  if [[ -z ${id} ]]; then id=latest.release; fi
+  if [[ -z ${id} ]]; then id=.latest.release; fi
 
   launcherMeta=$(curl -s "$launcherMetaUrl")
   # check for valid json response
@@ -23,16 +23,22 @@ convertTextures() {
     exit 1
   fi
 
-  id_=$(echo "$launcherMeta" | jq ".$id")
-  echo "id_: $id_"
-
-  if [[ $id_ == "null" ]]; then
-    id_=$id
+  # check for valid jq expression
+  if id_=$(echo "$launcherMeta" | jq "$id"); then
+    # $id=.latest.release
+    # $id_="1.17.1"
+    if [[ $id_ == "null" ]]; then
+      echo "jq expression $id not found from $launcherMetaUrl"
+      exit 1
+    fi
+  else
+    # $id=1.17.1
+    id_="\"$id\""
+    # $id_="1.17.1"
   fi
 
-  #echo "id_s: $id_"
-
-  version=$(echo "$launcherMeta" | jq --arg id_ "$id_" '.versions[] | select(.id=="$id_")')
+  # $id_ must be wrapped in quotes
+  version=$(echo "$launcherMeta" | jq ".versions[] | select(.id==$id_)")
 
   if [[ -z ${version} ]]; then
     echo "version $id not found from $launcherMetaUrl"
