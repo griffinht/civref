@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# $1=path to converter.jar
+converter=converter.jar
+if [[ -z ${$1+x} ]]; then converter=$1; fi
+
 realisticBiomesConfigUrl=https://raw.githubusercontent.com/CivClassic/AnsibleSetup/master/templates/public/plugins/RealisticBiomes/config.yml.j2
 convertRealisticBiomes() {
-  if [[ -z ${converter+x} ]]; then converter=converter.jar; fi
   curl "$realisticBiomesConfigUrl" | java -jar $converter > output
 }
 
@@ -15,6 +18,10 @@ launcherMetaUrl=https://launchermeta.mojang.com/mc/game/version_manifest.json
 convertTextures() {
   id=$1
   if [[ -z ${id} ]]; then id=.latest.release; fi
+
+  #
+  # Download launcher meta from Mojang API and select version
+  #
 
   launcherMeta=$(mktemp)
   curl -s "$launcherMetaUrl" > $launcherMeta
@@ -43,7 +50,9 @@ convertTextures() {
     exit 1
   fi
 
-
+  #
+  # Download client jar selected version from Mojang API
+  #
 
   version=$(mktemp)
   # todo error handle
@@ -65,9 +74,18 @@ convertTextures() {
     exit 1
   fi
 
+  #
+  # Unzip client jar
+  #
+
   clientDir=$(mktemp -d)
   unzip -q -d $clientDir $client
-  ls $clientDir/assets
+
+  #
+  # Convert
+  #
+
+  java -jar $converter $clientDir > output.png
 }
 
 convertTextures
