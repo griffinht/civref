@@ -7,8 +7,9 @@ import Flexbox from "./html/Flexbox.js";
 let output = document.getElementById('plants') as HTMLElement
 
 
-
-let wheat = new Plant(
+let plants: Plant[] = [
+    new Plant(
+        'Wheat',
         Items.WHEAT_SEEDS,
         Blocks.WHEAT,
         [
@@ -17,18 +18,21 @@ let wheat = new Plant(
             new Yield(7, 7, Items.WHEAT, 1),
         ],
         3
-    )
-let potatoes = new Plant(
-    Items.WHEAT_SEEDS,
-    Blocks.WHEAT,
-    [
-        new Yield(0, 0, Items.WHEAT_SEEDS, 1)
-    ],
-    3
-)
+    ),
+    new Plant(
+        'Potato',
+        Items.POTATO,
+        Blocks.POTATOES,
+        [
+            new Yield(0, 7, Items.POTATO, 1),
+            new Yield(8, 8, Items.POTATO, 3)
+        ],
+        3
+    ),
+]
 
-output.append(
-    new Flexbox()
-        .append(wheat)
-        .append(potatoes)
-    .getElement())
+let flexbox = new Flexbox()
+for (let plant of plants) {
+    flexbox.append(plant)
+}
+output.append(flexbox.getElement())

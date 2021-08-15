@@ -5,6 +5,7 @@ import Info from "../html/Info.js";
 import Element from "../html/Element.js";
 
 export default class Plant implements Element {
+    name: string
     /**
      * item used to plant this plant
      */
@@ -19,7 +20,8 @@ export default class Plant implements Element {
     yields: Yield[]
     persistentGrowthPeriod: number
 
-    constructor(seed: Item, crop: Block, yields: Yield[], persistentGrowthPeriod: number) {
+    constructor(name: string, seed: Item, crop: Block, yields: Yield[], persistentGrowthPeriod: number) {
+        this.name = name
         this.seed = seed
         this.crop = crop
         this.yields = yields
@@ -28,7 +30,9 @@ export default class Plant implements Element {
 
     getElement(): HTMLElement {
         let element = document.createElement('div')
-        element.append(new Info('Plant').getElement())
+        element.style.border = '1px solid black'
+        element.style.margin = '1px'
+        element.append(new Info(this.name + ' (Plant)').getElement())
         element.append(this.seed.getElement())
         element.append(this.crop.getElement())
         let list = document.createElement('div')
