@@ -8,7 +8,6 @@ import java.io.InputStream;
 
 public class Converter {
     public static void main(String[] args) throws FileNotFoundException {
-        System.err.println("hello");
         if (args.length > 0) {
             for (String arg : args) {
                 parse(new FileInputStream(arg));

@@ -14,11 +14,11 @@ RUN gradle shadowJar --no-daemon
 #
 FROM adoptopenjdk/openjdk11:alpine-jre
 # todo necessary?
-RUN apk --no-cache add curl
+RUN apk --no-cache add curl jq
 
 WORKDIR /usr/app
 
 COPY --from=build /usr/src/app/build/libs/converter.jar .
 COPY convert.sh .
 
-ENTRYPOINT ["convert.sh", ${INPUT}]
+ENTRYPOINT ["convert.sh"]
