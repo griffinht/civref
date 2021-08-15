@@ -1,6 +1,6 @@
 import Item from "../minecraft/Item.js";
-import Info from "../html/Info.js";
 import Element from "../html/Element.js";
+import HtmlElement from "../html/HtmlElement.js";
 
 export default class Yield implements Element {
     start: number
@@ -17,9 +17,9 @@ export default class Yield implements Element {
 
     getElement(): HTMLElement {
         let element = document.createElement('div')
-        element.append(new Info('Yield: ' + this.start + '-' + this.end).getElement())
+        element.append(new HtmlElement('div', 'Yield: ' + this.start + '-' + this.end).getElement())
         element.append(this.item.getElement())
-        element.append(new Info('x' + this.amount).getElement())
+        element.append(new HtmlElement('div', 'x' + this.amount).getElement())
         return element
     }
 }

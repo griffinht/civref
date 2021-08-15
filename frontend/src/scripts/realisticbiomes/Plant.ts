@@ -3,6 +3,7 @@ import Block from "../minecraft/Block.js";
 import Yield from "./Yield.js";
 import Info from "../html/Info.js";
 import Element from "../html/Element.js";
+import Tooltip from "../html/Tooltip.js";
 
 export default class Plant implements Element {
     name: string
@@ -39,6 +40,8 @@ export default class Plant implements Element {
         for (let yields of this.yields) {
             list.append(yields.getElement())
         }
+        element.append(list)
+        //new Tooltip(list).attach(element)
         element.append(list)
         element.append(new Info('Persistent growth: ' + this.persistentGrowthPeriod).getElement())
         return element

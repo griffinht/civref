@@ -1,14 +1,14 @@
 import Element from "./Element.js";
 
 export default class Tooltip implements Element {
-    element: Element
+    element: HTMLElement
 
-    constructor(element: Element) {
+    constructor(element: HTMLElement) {
         this.element = element
     }
 
     getElement(): HTMLElement {
-        let element = this.element.getElement();
+        let element = this.element;
         element.classList.add('tooltip-hover')
         element.style.background = 'gray'
         return element

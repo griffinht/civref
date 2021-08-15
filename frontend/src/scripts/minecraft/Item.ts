@@ -1,7 +1,7 @@
 import Element from "../html/Element.js";
 import Icon from "../html/Icon.js";
 import Tooltip from "../html/Tooltip.js";
-import Info from "../html/Info.js";
+import HtmlElement from "../html/HtmlElement.js";
 
 const url = '/assets/items.png'
 const size = 16
@@ -19,7 +19,18 @@ export default class Item implements Element {
 
     getElement(): HTMLElement {
         let element = this.icon.getElement()
-        new Tooltip(new Info(this.name)).attach(element)
+        let tooltip = document.createElement('div')
+
+        let title = document.createElement('div')
+        title.style.display = 'flex'
+        title.style.alignItems = 'center'
+        title.append(this.icon.getElement())
+        title.append(new HtmlElement('h4', this.name, ).getElement())
+        title.append(new HtmlElement('h5', '(item)').getElement())
+        tooltip.append(title)
+
+        tooltip.append(new HtmlElement('h6', this.id).getElement())
+        new Tooltip(tooltip).attach(element)
         return element
     }
 }
