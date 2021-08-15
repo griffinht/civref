@@ -1,5 +1,7 @@
 import Element from "../html/Element.js";
 import Icon from "../html/Icon.js";
+import Tooltip from "../html/Tooltip.js";
+import Info from "../html/Info.js";
 
 const url = '/assets/items.png'
 const size = 16
@@ -17,7 +19,7 @@ export default class Item implements Element {
 
     getElement(): HTMLElement {
         let element = this.icon.getElement()
-        element.innerText = 'Item: ' + this.name
+        new Tooltip(new Info(this.name)).attach(element)
         return element
     }
 }

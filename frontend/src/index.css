@@ -1,0 +1,10 @@
+.tooltip .tooltip-hover {
+    display: none;
+}
+
+.tooltip:hover .tooltip-hover {
+    display: block;
+    position: fixed;
+    transform: translateY(calc(-100%)); /* float above parent */
+    overflow: hidden;
+}
