@@ -2,8 +2,9 @@ import Item from "../minecraft/Item.js";
 import Block from "../minecraft/Block.js";
 import Yield from "./Yield.js";
 import Info from "../html/Info.js";
+import Element from "../html/Element.js";
 
-export default class Plant {
+export default class Plant implements Element {
     /**
      * item used to plant this plant
      */

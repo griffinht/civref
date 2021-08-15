@@ -29,6 +29,6 @@ let potatoes = new Plant(
 
 output.append(
     new Flexbox()
-        .append(wheat.getElement())
-        .append(potatoes.getElement())
+        .append(wheat)
+        .append(potatoes)
     .getElement())

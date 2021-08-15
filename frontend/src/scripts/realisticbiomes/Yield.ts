@@ -1,7 +1,8 @@
 import Item from "../minecraft/Item.js";
 import Info from "../html/Info.js";
+import Element from "../html/Element.js";
 
-export default class Yield {
+export default class Yield implements Element {
     start: number
     end: number
     item: Item

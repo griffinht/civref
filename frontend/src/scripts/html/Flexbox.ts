@@ -1,15 +1,19 @@
-export default class Flexbox {
-    element = document.createElement('div')
-    constructor() {
-        this.element.style.display = 'flex'
-    }
+import Element from "./Element.js";
 
-    append(element: HTMLElement): Flexbox {
-        this.element.append(element)
+export default class Flexbox implements Element {
+    elements: Element[] = []
+
+    append(element: Element): Flexbox {
+        this.elements.push(element)
         return this
     }
 
     getElement(): HTMLElement {
-        return this.element
+        let element = document.createElement('div')
+        element.style.display = 'flex'
+        for (let e of this.elements) {
+            element.append(e.getElement())
+        }
+        return element
     }
 }

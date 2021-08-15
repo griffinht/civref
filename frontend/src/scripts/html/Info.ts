@@ -1,5 +1,8 @@
-export default class Info {
+import Element from "./Element.js";
+
+export default class Info implements Element {
     string: string
+
     constructor(string: string) {
         this.string = string
     }

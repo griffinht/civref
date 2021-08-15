@@ -1,4 +1,6 @@
-export default class Item {
+import Element from "../html/Element.js";
+
+export default class Item implements Element {
     id: string
     name: string
 
