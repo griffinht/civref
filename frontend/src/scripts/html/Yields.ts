@@ -1,5 +1,6 @@
 import Element from "./Element.js";
 import Yield from "../realisticbiomes/Yield.js";
+import Tooltip from "./Tooltip.js";
 
 export default class Yields implements Element {
     yields: Yield[]
@@ -10,6 +11,12 @@ export default class Yields implements Element {
 
     getElement(): HTMLElement {
         let element = document.createElement('div')
+        element.style.border = '1px solid black'
+        let a = document.createElement('h3')
+        a.style.border = '1px solid black'
+        a.innerText = 'yield'
+        element.append(a)
+        let b = document.createElement('div')
         for (let i = 0; i < this.yields.length; i++) {
             let e = document.createElement('div')
             e.style.display = 'flex'
@@ -30,8 +37,9 @@ export default class Yields implements Element {
             }
             e.append(this.yields[i].item.getElement())
             e.append('x' + this.yields[i].amount)
-            element.append(e)
+            b.append(e)
         }
+        new Tooltip(b).attach(element)
         return element
     }
 }

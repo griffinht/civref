@@ -34,7 +34,11 @@ export default class Plant implements Element {
         element.style.border = '1px solid black'
         element.style.margin = '1px'
         element.append(new HtmlElement('h4', this.name + ' (Plant)').getElement())
-        element.append(this.seed.getElement())
+        let seed = document.createElement('div')
+        seed.style.display = 'flex'
+        seed.append('Seed: ')
+        seed.append(this.seed.getElement())
+        element.append(seed)
         element.append(this.crop.getElement())
         element.append(this.yields.getElement())
         //new Tooltip(list).attach(element)
