@@ -10,7 +10,7 @@ launcherMetaUrl=https://launchermeta.mojang.com/mc/game/version_manifest.json
 
 # $1=id
 # jq expression or minecraft version
-# id=latest.release
+# id=.latest.release
 # id=1.17.1
 convertTextures() {
   id=$1
