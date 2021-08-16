@@ -2,7 +2,7 @@ import Item from "../minecraft/Item.js";
 import Block from "../minecraft/Block.js";
 import Element from "../html/Element.js";
 import Yield from "./Yield.js";
-import {createElement, createYields} from "../html/html.js";
+import {createYields} from "../html/html.js";
 
 export default class Plant implements Element {
     name: string
@@ -32,16 +32,26 @@ export default class Plant implements Element {
         let element = document.createElement('div')
         element.style.border = '1px solid black'
         element.style.margin = '1px'
-        element.append(createElement('h4', (e) => e.innerText = this.name + ' (Plant)'))
-        let seed = document.createElement('div')
-        seed.style.display = 'flex'
-        seed.append('Seed: ')
-        seed.append(this.seed.getElement())
-        element.append(seed)
+        {
+            let e = document.createElement('h4')
+            e.innerText = this.name + ' (Plant)'
+            element.append(e)
+        }
+        {
+            let e = document.createElement('div')
+            e.style.display = 'flex'
+            e.append('Seed: ')
+            e.append(this.seed.getElement())
+            element.append(e)
+        }
+
         element.append(this.crop.getElement())
         element.append(createYields(this.yields))
-        //new Tooltip(list).attach(element)
-        element.append(createElement('h4', (e) => e.innerText = 'Persistent growth: ' + this.persistentGrowthPeriod))
+        {
+            let e = document.createElement('div')
+            e.innerText = 'Persistent growth: ' + this.persistentGrowthPeriod
+            element.append(e)
+        }
         return element
     }
 }
