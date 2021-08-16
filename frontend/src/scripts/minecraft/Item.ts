@@ -1,8 +1,5 @@
 import Element from "../html/Element.js";
-import {addTooltip} from "../html/tooltip.js";
-import createElement from "../html/HtmlElement.js";
-import createIcon from "../html/Icon.js";
-import Icon from "../html/Icon.js";
+import {addTooltip, createElement, createIcon} from "../html/html.js";
 
 const url = '/assets/items.png'
 const size = 16
@@ -10,22 +7,22 @@ const size = 16
 export default class Item implements Element {
     id: string
     name: string
-    icon: Icon
+    index: number
 
     constructor(id: string, name: string, index: number) {
         this.id = id
         this.name = name
-        this.icon = new Icon(url, size, index)
+        this.index = index
     }
 
     getElement(): HTMLElement {
-        let element = this.icon.getElement()
+        let element = createIcon(url, size, this.index)
         let tooltip = document.createElement('div')
 
         let title = document.createElement('div')
         title.style.display = 'flex'
         title.style.alignItems = 'center'
-        title.append(this.icon.getElement())
+        title.append(createIcon(url, size, this.index))
         title.append(createElement('h4', (element) => element.innerText = this.name))
         title.append(createElement('h5', (element) => element.innerText = '(item)'))
         tooltip.append(title)
