@@ -3,7 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "allowJs": false,
-    "inlineSourceMap": true,
+    "sourceMap": true,
     "outDir": "./build/scripts",
     "strict": true,
   },
