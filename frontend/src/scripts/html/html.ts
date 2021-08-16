@@ -14,14 +14,20 @@ export function createIcon(url: string, size: number, index: number): HTMLElemen
     return element
 }
 
+export function createInnerText(tag: string, text: string): HTMLElement {
+    let element = document.createElement(tag)
+    element.innerText = text
+    return element
+}
+
 /**
- * Add tooltip element to parent element
+ * Add child element to parent element
  */
-export function addTooltip(tooltip: HTMLElement, parent: HTMLElement): void {
-    tooltip.classList.add('tooltip-hover')
-    tooltip.style.background = 'gray'
+export function appendTooltip(child: HTMLElement, parent: HTMLElement) {
+    child.classList.add('tooltip-hover')
+    child.style.background = 'gray'
     parent.classList.add('tooltip')
-    parent.append(tooltip)
+    parent.append(child)
 }
 
 export function createYields(yields: Yield[]): HTMLElement {
@@ -56,6 +62,6 @@ export function createYields(yields: Yield[]): HTMLElement {
         yieldElement.append('x' + yields[i].amount)
         parent.append(yieldElement)
     }
-    addTooltip(parent, element)
+    appendTooltip(parent, element)
     return element
 }

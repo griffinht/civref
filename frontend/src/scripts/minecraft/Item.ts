@@ -1,5 +1,5 @@
 import Element from "../html/Element.js";
-import {addTooltip, append, createIcon} from "../html/html.js";
+import {appendTooltip, append, createIcon, createInnerText} from "../html/html.js";
 
 const url = '/assets/items.png'
 const size = 16
@@ -16,20 +16,28 @@ export default class Item implements Element {
     }
 
     getElement(): HTMLElement {
-        let element = createIcon(url, size, this.index)
-        let tooltip = document.createElement('div')
-        tooltip.style.background = 'gray'
+        let icon = createIcon(url, size, this.index)
         {
-            let title = append('div', createIcon(url, size, this.index))
-            tooltip.append(title)
-            title.style.display = 'flex'
-            title.style.alignItems = 'center'
-            append('h4', title).innerText = this.name
-            append('h5', title).innerText = '(item)'
-            append('h6', tooltip).innerText = this.id
+            let tooltip = document.createElement('div')
+            appendTooltip(tooltip, icon)
+            {
+                tooltip.style.background = 'gray'
+
+                let title = document.createElement('div')
+                tooltip.append(title)
+                {
+                    title.style.display = 'flex'
+                    title.style.alignItems = 'center'
+                    title.append(createIcon(url, size, this.index))
+                    title.append(createInnerText('h4', this.name))
+                    title.append(createInnerText('h5', '(item)'))
+                }
+
+                tooltip.append(createInnerText('h6', this.id))
+            }
         }
 
-        addTooltip(tooltip, element)
-        return element
+
+        return icon
     }
 }
