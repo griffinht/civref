@@ -1,5 +1,7 @@
 import Plants from "./realisticbiomes/Plants.js";
+import Calculator from "./calculator/Calculator.js";
 
-let input = document.getElementById('input') as HTMLElement
 
-input.append(Plants.WHEAT.getElement())
+let calculator = new Calculator()
+calculator.addInput(Plants.WHEAT)
+document.body.append(calculator.getElement())

@@ -3,22 +3,23 @@ import Block from "../minecraft/Block.js";
 import Element from "../html/Element.js";
 import Yield from "./Yield.js";
 import {createYields} from "../html/html.js";
+import Itemstack from "../minecraft/Itemstack.js";
 
 export default class Plant implements Element {
-    name: string
+    readonly name: string
     /**
      * item used to plant this plant
      */
-    seed: Item
+    readonly seed: Item
     /**
      * block placed by the seed that grows
      */
-    crop: Block
+    readonly crop: Block
     /**
      * item dropped by the crop, dependent on growth rate
      */
-    yields: Yield[]
-    persistentGrowthPeriod: number
+    readonly yields: Yield[]
+    readonly persistentGrowthPeriod: number
 
     constructor(name: string, seed: Item, crop: Block, yields: Yield[], persistentGrowthPeriod: number) {
         this.name = name
@@ -55,5 +56,17 @@ export default class Plant implements Element {
 
 
         return plant
+    }
+
+    getOutput(time: number, growthState: number): Itemstack[] {
+        let t = this.persistentGrowthPeriod / time
+
+        let itemstacks: Itemstack[] = []
+        for (let y of this.yields) {
+            if (y.start >= growthState && y.end <= growthState) {
+                itemstacks.push(new Itemstack(y.item, y.amount * t))
+            }
+        }
+        return itemstacks;
     }
 }
