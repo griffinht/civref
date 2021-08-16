@@ -1,5 +1,11 @@
 import Yield from "../realisticbiomes/Yield.js";
 
+export function append(tag: string, parent: HTMLElement): HTMLElement {
+    let child = document.createElement(tag)
+    parent.append(child)
+    return child
+}
+
 export function createIcon(url: string, size: number, index: number): HTMLElement {
     let element = document.createElement('div')
     element.style.background = 'url(\'' + url + '\') ' + size * index + 'px ' + 0 + 'px'
