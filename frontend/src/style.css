@@ -1,0 +1,27 @@
+body {
+    font-family: monospace;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    margin: 0;
+}
+
+header {
+    background: gray;
+}
+
+nav {
+    background: lightgray;
+}
+
+.tooltip > .tooltip-hover {
+    display: none;
+}
+
+.tooltip:hover > .tooltip-hover {
+    display: block;
+    position: fixed;
+    overflow: hidden;
+}

@@ -1,18 +1,7 @@
-.tooltip > .tooltip-hover {
-    display: none;
+body > section {
+    display: flex;
 }
 
-.tooltip:hover > .tooltip-hover {
-    display: block;
-    position: fixed;
-    overflow: hidden;
-}
-
-body {
-    font-family: monospace;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-weight: normal;
-    margin: 0;
+body > section > * {
+    border: 1px solid black;
 }
