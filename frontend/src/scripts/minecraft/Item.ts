@@ -16,28 +16,23 @@ export default class Item implements Element {
     }
 
     getElement(): HTMLElement {
-        let icon = createIcon(url, size, this.index)
+        let title = document.createElement('div')
+        title.style.display = 'flex'
+        title.style.alignItems = 'center'
+        title.append(createIcon(url, size, this.index))
+        title.append(createInnerText('h4', this.name))
+        title.append(createInnerText('h5', '(item)'))
+
         {
             let tooltip = document.createElement('div')
-            {
-                tooltip.style.background = 'gray'
-            }
-            appendTooltip(tooltip, icon)
-
-            let title = document.createElement('div')
-            {
-                title.style.display = 'flex'
-                title.style.alignItems = 'center'
-                title.append(createIcon(url, size, this.index))
-                title.append(createInnerText('h4', this.name))
-                title.append(createInnerText('h5', '(item)'))
-            }
-
+            tooltip.style.background = 'gray'
             tooltip.append(title)
             tooltip.append(createInnerText('h6', this.id))
+            {
+                let icon = createIcon(url, size, this.index)
+                appendTooltip(tooltip, icon)
+                return icon
+            }
         }
-
-
-        return icon
     }
 }
