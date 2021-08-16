@@ -29,29 +29,39 @@ export default class Plant implements Element {
     }
 
     getElement(): HTMLElement {
-        let element = document.createElement('div')
-        element.style.border = '1px solid black'
-        element.style.margin = '1px'
+        let plant = document.createElement('div')
         {
-            let e = document.createElement('h4')
-            e.innerText = this.name + ' (Plant)'
-            element.append(e)
-        }
-        {
-            let e = document.createElement('div')
-            e.style.display = 'flex'
-            e.append('Seed: ')
-            e.append(this.seed.getElement())
-            element.append(e)
+            plant.style.border = '1px solid black'
+            plant.style.margin = '1px'
+
+            {
+                let e = document.createElement('h4')
+                {
+                    e.innerText = this.name + ' (Plant)'
+                }
+                plant.append(e)
+            }
+            {
+                let e = document.createElement('div')
+                {
+                    e.style.display = 'flex'
+                    e.append('Seed: ')
+                    e.append(this.seed.getElement())
+                }
+                plant.append(e)
+            }
+
+            plant.append(this.crop.getElement())
+            plant.append(createYields(this.yields))
+            {
+                let e = document.createElement('div')
+                {
+                    e.innerText = 'Persistent growth: ' + this.persistentGrowthPeriod
+                }
+                plant.append(e)
+            }
         }
 
-        element.append(this.crop.getElement())
-        element.append(createYields(this.yields))
-        {
-            let e = document.createElement('div')
-            e.innerText = 'Persistent growth: ' + this.persistentGrowthPeriod
-            element.append(e)
-        }
-        return element
+        return plant
     }
 }
