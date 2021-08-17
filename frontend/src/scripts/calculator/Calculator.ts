@@ -1,11 +1,12 @@
-import Plant from "../realisticbiomes/Plant.js";
-import Element from "../html/Element.js";
+import InputItem from "./InputItem.js";
+import Plants from "../realisticbiomes/Plants.js";
 
-export default class Calculator implements Element {
-    plants: Plant[] = []
+export default class Calculator {
+    inputItems: InputItem[] = []
     time: number = 0
+    element: HTMLElement
 
-    getElement(): HTMLElement {
+    constructor() {
         let element = document.createElement('div')
         {
             let header = document.createElement('header')
@@ -19,25 +20,9 @@ export default class Calculator implements Element {
         }
         {
             let section = document.createElement('section')
-            for (let plant of this.plants) {
-                let row = document.createElement('div')
-                row.style.display = 'flex'
-                row.style.border = '1px solid black'
-                {
-                    let e = document.createElement('h3')
-                    e.innerText = 'input'
-                    row.append(e)
-                }
-                row.append(plant.getElement())
-                section.append(row)
-            }
+            element.append(new InputItem(Plants.WHEAT).element)
             element.append(section)
         }
-
-        return element
-    }
-
-    addInput(plant: Plant) {
-        this.plants.push(plant)
+        this.element = element
     }
 }
