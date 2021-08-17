@@ -58,15 +58,16 @@ export default class Plant implements Element {
         return plant
     }
 
-    getOutput(time: Data<number>): HTMLElement[] {
+    getOutput(time: Data<number>, amount: Data<number>): HTMLElement[] {
         let t = new Data<number>(time.get() / this.persistentGrowthPeriod)
         time.listen((time) => t.update(time / this.persistentGrowthPeriod))
 
         let itemStacks: HTMLElement[] = []
         for (let y of this.yields) {
-            let amount = new Data(y.amount * t.get())
-            t.listen((t) => amount.update(y.amount * t))
-            itemStacks.push(createItemStack(y.item, amount))
+            let amt = new Data(y.amount * t.get() * amount.get())
+            t.listen((t) => amt.update(y.amount * t * amount.get()))
+            amount.listen((amount) => amt.update(y.amount * t.get() * amount))
+            itemStacks.push(createItemStack(y.item, amt))
         }
         return itemStacks;
     }

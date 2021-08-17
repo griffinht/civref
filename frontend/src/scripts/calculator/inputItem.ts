@@ -1,6 +1,5 @@
 import Plant from "../realisticbiomes/Plant.js";
 import Data from "../Data.js";
-import {createItemStacks} from "../html/html.js";
 
 export default function createInputItem(plant: Plant, time: Data<number>) {
     let amount = new Data<number>(0)
@@ -37,10 +36,12 @@ export default function createInputItem(plant: Plant, time: Data<number>) {
         }
         {
             let ee = document.createElement('div')
+            ee.style.display = 'flex'
+            ee.style.flexDirection = 'vertical'
+            for (let htmlElement of plant.getOutput(time, amount)) {
+                ee.append(htmlElement)
+            }
             e.append(ee)
-            amount.listen((amount) => {
-                ee.replaceWith(createItemStacks(plant.getOutput(time)))
-            })
         }
         element.append(e)
     }

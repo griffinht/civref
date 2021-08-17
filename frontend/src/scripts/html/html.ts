@@ -54,22 +54,15 @@ export function createYields(yields: Yield[]): HTMLElement {
 }
 
 export function createItemStack(item: Item, amount: Data<number>): HTMLElement {
-    let element = item.getElement()
-    amount.listen((amount) => {
-        element.innerText = 'x' + amount
-    })
-    element.innerText = 'x' + amount
-    return element
-}
-
-export function createItemStacks(itemStacks: HTMLElement[]): HTMLElement {
     let element = document.createElement('div')
-    element.style.border = '1px solid black'
-
     element.style.display = 'flex'
-    for (let itemStack of itemStacks) {
-        element.append(itemStack)
+    element.append(item.getElement())
+    {
+        let e = document.createElement('h3')
+        amount.listen((amount) => {
+            e.innerText = 'x' + amount
+        })
+        element.append(e)
     }
-
     return element
 }
