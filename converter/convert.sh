@@ -17,7 +17,6 @@ launcherMetaUrl=https://launchermeta.mojang.com/mc/game/version_manifest.json
 # jq expression or minecraft version
 # id=.latest.release
 # id=1.17.1
-# shellcheck disable=SC2120
 downloadMinecraftClient() {
   id=$1
   if [[ -z ${id} ]]; then id=.latest.release; fi
