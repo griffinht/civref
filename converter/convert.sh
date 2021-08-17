@@ -1,22 +1,24 @@
 #!/bin/bash
 
 # $1=path to converter.jar
-converter=converter.jar
-if [[ -z ${$1+x} ]]; then converter=$1; fi
+converter=$1
+if [[ -z ${converter+x} ]]; then converter=converter.jar; fi
 
 realisticBiomesConfigUrl=https://raw.githubusercontent.com/CivClassic/AnsibleSetup/master/templates/public/plugins/RealisticBiomes/config.yml.j2
-convertRealisticBiomes() {
-  curl "$realisticBiomesConfigUrl" | java -jar "$converter" > output
+# downloads realistic biomes config to stdout
+downloadRealisticBiomes() {
+  curl "$realisticBiomesConfigUrl"
 }
 
 launcherMetaUrl=https://launchermeta.mojang.com/mc/game/version_manifest.json
 
+# downloads specified minecraft client files and echos location
 # $1=id
 # jq expression or minecraft version
 # id=.latest.release
 # id=1.17.1
 # shellcheck disable=SC2120
-convertTextures() {
+downloadMinecraftClient() {
   id=$1
   if [[ -z ${id} ]]; then id=.latest.release; fi
 
@@ -82,11 +84,13 @@ convertTextures() {
   clientDir=$(mktemp -d)
   unzip -q -d "$clientDir" "$client"
 
-  #
-  # Convert
-  #
-
-  java -jar "$converter" "$clientDir" > output.png
+  echo "$clientDir"
 }
 
-convertTextures
+
+convert() {
+  echo "$converter"
+  java -jar "$converter" "$(downloadMinecraftClient "1.16.5")" > output.png
+}
+
+convert
