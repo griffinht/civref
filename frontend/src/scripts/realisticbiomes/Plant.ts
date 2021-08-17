@@ -3,7 +3,7 @@ import Block from "../minecraft/Block.js";
 import Element from "../html/Element.js";
 import Yield from "./Yield.js";
 import {createYields} from "../html/html.js";
-import Itemstack from "../minecraft/Itemstack.js";
+import ItemStack from "../minecraft/ItemStack.js";
 
 export default class Plant implements Element {
     readonly name: string
@@ -58,15 +58,15 @@ export default class Plant implements Element {
         return plant
     }
 
-    getOutput(time: number, growthState: number): Itemstack[] {
+    getOutput(time: number, growthState: number): ItemStack[] {
         let t = this.persistentGrowthPeriod / time
 
-        let itemstacks: Itemstack[] = []
+        let itemStacks: ItemStack[] = []
         for (let y of this.yields) {
             if (y.start >= growthState && y.end <= growthState) {
-                itemstacks.push(new Itemstack(y.item, y.amount * t))
+                itemStacks.push(new ItemStack(y.item, y.amount * t))
             }
         }
-        return itemstacks;
+        return itemStacks;
     }
 }

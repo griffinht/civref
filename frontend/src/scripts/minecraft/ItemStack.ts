@@ -2,7 +2,7 @@ import Item from "./Item.js";
 import Element from "../html/Element.js";
 import {appendTooltip} from "../html/html.js";
 
-export default class Itemstack implements Element {
+export default class ItemStack implements Element {
     item: Item
     amount: number
 
