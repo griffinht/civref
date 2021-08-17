@@ -39,7 +39,7 @@ export default function createInputItem(plant: Plant, time: Data<number>) {
             let ee = document.createElement('div')
             e.append(ee)
             amount.listen((amount) => {
-                ee.replaceWith(createItemStacks(plant.getOutput(time.get())))
+                ee.replaceWith(createItemStacks(plant.getOutput(time)))
             })
         }
         element.append(e)

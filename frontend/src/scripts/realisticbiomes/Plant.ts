@@ -2,8 +2,8 @@ import Item from "../minecraft/Item.js";
 import Block from "../minecraft/Block.js";
 import Element from "../html/Element.js";
 import Yield from "./Yield.js";
-import {createYields} from "../html/html.js";
-import ItemStack from "../minecraft/ItemStack.js";
+import {createItemStack, createYields} from "../html/html.js";
+import Data from "../Data.js";
 
 export default class Plant implements Element {
     readonly name: string
@@ -58,12 +58,15 @@ export default class Plant implements Element {
         return plant
     }
 
-    getOutput(time: number): ItemStack[] {
-        let t = time / this.persistentGrowthPeriod
+    getOutput(time: Data<number>): HTMLElement[] {
+        let t = new Data<number>(time.get() / this.persistentGrowthPeriod)
+        time.listen((time) => t.update(time / this.persistentGrowthPeriod))
 
-        let itemStacks: ItemStack[] = []
+        let itemStacks: HTMLElement[] = []
         for (let y of this.yields) {
-            itemStacks.push(new ItemStack(y.item, y.amount * t))
+            let amount = new Data(y.amount * t.get())
+            t.listen((t) => amount.update(y.amount * t))
+            itemStacks.push(createItemStack(y.item, amount))
         }
         return itemStacks;
     }

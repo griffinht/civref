@@ -1,6 +1,6 @@
 import Yield from "../realisticbiomes/Yield.js";
 import Item from "../minecraft/Item.js";
-import ItemStack from "../minecraft/ItemStack.js";
+import Data from "../Data.js";
 
 export function append(tag: string, parent: HTMLElement): HTMLElement {
     let child = document.createElement(tag)
@@ -53,13 +53,22 @@ export function createYields(yields: Yield[]): HTMLElement {
     return element
 }
 
-export function createItemStacks(itemStacks: ItemStack[]): HTMLElement {
+export function createItemStack(item: Item, amount: Data<number>): HTMLElement {
+    let element = item.getElement()
+    amount.listen((amount) => {
+        element.innerText = 'x' + amount
+    })
+    element.innerText = 'x' + amount
+    return element
+}
+
+export function createItemStacks(itemStacks: HTMLElement[]): HTMLElement {
     let element = document.createElement('div')
     element.style.border = '1px solid black'
 
     element.style.display = 'flex'
     for (let itemStack of itemStacks) {
-        element.append(itemStack.getElement())
+        element.append(itemStack)
     }
 
     return element
