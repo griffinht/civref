@@ -3,7 +3,7 @@ import Plants from "../realisticbiomes/Plants.js";
 import createInputItem from "./inputItem.js";
 
 export default function createCalculator() {
-    let time: Data<number> = new Data<number>(0)
+    let time = new Data<number>(0)
 
     let element = document.createElement('div')
     {
@@ -26,11 +26,7 @@ export default function createCalculator() {
             {
                 let ee = document.createElement('input')
                 ee.setAttribute('type', 'number')
-                const update = () => {
-                    time.update(parseInt(ee.value))
-                }
-                e.addEventListener('change', update)
-                e.addEventListener('keypress', update)
+                e.addEventListener('input', () => time.update(parseInt(ee.value)))
                 e.append(ee)
             }
             header.append(e)
@@ -40,7 +36,7 @@ export default function createCalculator() {
     }
     {
         let section = document.createElement('section')
-        section.append(createInputItem(Plants.WHEAT))
+        section.append(createInputItem(Plants.WHEAT, time))
         element.append(section)
     }
 

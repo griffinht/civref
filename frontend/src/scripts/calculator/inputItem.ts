@@ -1,7 +1,7 @@
 import Plant from "../realisticbiomes/Plant.js";
 import Data from "../Data.js";
 
-export default function createInputItem(plant: Plant) {
+export default function createInputItem(plant: Plant, time: Data<number>) {
     let amount = new Data<number>(0)
 
     let element = document.createElement('div')
@@ -19,8 +19,8 @@ export default function createInputItem(plant: Plant) {
     {
         let e = document.createElement('div')
         e.innerText = 'output'
-        amount.listen((data: number) => {
-            e.innerText = 'output ' + data
+        amount.listen((amount) => {
+            e.innerText = 'output ' + amount
         })
         element.append(e)
     }
