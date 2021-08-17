@@ -1,5 +1,4 @@
-import Calculator from "./calculator/Calculator.js";
+import createCalculator from "./calculator/calculator.js";
 
 
-let calculator = new Calculator()
-document.body.append(calculator.element)
+document.body.append(createCalculator())
