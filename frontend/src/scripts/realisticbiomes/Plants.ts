@@ -9,9 +9,8 @@ const Plants = {
         Items.WHEAT_SEEDS,
         Blocks.WHEAT,
         [
-            new Yield(0, 6, Items.WHEAT_SEEDS, 1),
-            new Yield(7, 7, Items.WHEAT_SEEDS, 2.535),//todo find real average https://minecraft.fandom.com/wiki/Wheat_Seeds#Breaking
-            new Yield(7, 7, Items.WHEAT, 1),
+            new Yield(Items.WHEAT_SEEDS, 2.535),//todo find real average https://minecraft.fandom.com/wiki/Wheat_Seeds#Breaking
+            new Yield(Items.WHEAT, 1),
         ],
         3
     ),
@@ -20,8 +19,7 @@ const Plants = {
         Items.POTATO,
         Blocks.POTATOES,
         [
-            new Yield(0, 7, Items.POTATO, 1),
-            new Yield(8, 8, Items.POTATO, 3)
+            new Yield(Items.POTATO, 3)
         ],
         3
     )

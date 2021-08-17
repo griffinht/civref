@@ -1,14 +1,10 @@
 import Item from "../minecraft/Item.js";
 
 export default class Yield {
-    start: number
-    end: number
     item: Item
     amount: number
 
-    constructor(start: number, end: number, item: Item, amount: number) {
-        this.start = start
-        this.end = end
+    constructor(item: Item, amount: number) {
         this.item = item
         this.amount = amount
     }

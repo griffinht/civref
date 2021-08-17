@@ -63,9 +63,7 @@ export default class Plant implements Element {
 
         let itemStacks: ItemStack[] = []
         for (let y of this.yields) {
-            if (y.start >= growthState && y.end <= growthState) {
-                itemStacks.push(new ItemStack(y.item, y.amount * t))
-            }
+            itemStacks.push(new ItemStack(y.item, y.amount * t))
         }
         return itemStacks;
     }
