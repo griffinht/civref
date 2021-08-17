@@ -1,6 +1,7 @@
 import Yield from "../realisticbiomes/Yield.js";
 import Item from "../minecraft/Item.js";
 import Data from "../Data.js";
+import Yields from "../realisticbiomes/Yield.js";
 
 export function append(tag: string, parent: HTMLElement): HTMLElement {
     let child = document.createElement(tag)
@@ -32,7 +33,7 @@ export function appendTooltip(child: HTMLElement, parent: HTMLElement) {
     parent.append(child)
 }
 
-export function createYields(yields: Yield[]): HTMLElement {
+export function createYields(yields: Yields): HTMLElement {
     let element = document.createElement('div')
     element.style.border = '1px solid black'
 
@@ -42,11 +43,11 @@ export function createYields(yields: Yield[]): HTMLElement {
 
     let parent = document.createElement('div')
     parent.style.border = '1px solid black'
-    for (let i = 0; i < yields.length; i++) {
+    for (let i = 0; i < yields.yields.length; i++) {
         let yieldElement = document.createElement('div')
         yieldElement.style.display = 'flex'
-        yieldElement.append(yields[i].item.getElement())
-        yieldElement.append('x' + yields[i].amount)
+        yieldElement.append(yields.yields[i].item.getElement())
+        yieldElement.append('x' + yields.yields[i].amount)
         parent.append(yieldElement)
     }
     appendTooltip(parent, element)

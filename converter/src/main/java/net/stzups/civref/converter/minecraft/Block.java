@@ -1,11 +1,18 @@
 package net.stzups.civref.converter.minecraft;
 
-public class Block {
-    private final String id;
-    private final String name;
+import io.netty.buffer.ByteBuf;
+import net.stzups.civref.converter.NettyUtils;
+import org.bukkit.Material;
 
-    Block(String id, String name) {
-        this.id = id;
-        this.name = name;
+public class Block {
+    private final Material material;
+
+    public Block(Material material) {
+        this.material = material;
+    }
+
+    public void serialize(ByteBuf byteBuf) {
+        NettyUtils.writeString8(byteBuf, material.getKey().getKey());
+        NettyUtils.writeString8(byteBuf, material.name());
     }
 }

@@ -1,6 +1,14 @@
 import Item from "../minecraft/Item.js";
 
-export default class Yield {
+export default class Yields {
+    yields: Yield[]
+
+    constructor(yields: Yield[]) {
+        this.yields = yields
+    }
+}
+
+export class Yield {
     item: Item
     amount: number
 

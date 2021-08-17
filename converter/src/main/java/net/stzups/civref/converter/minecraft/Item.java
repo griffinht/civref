@@ -1,5 +1,7 @@
 package net.stzups.civref.converter.minecraft;
 
+import io.netty.buffer.ByteBuf;
+
 public class Item {
     private final String id;
     private final String name;
@@ -10,5 +12,9 @@ public class Item {
         this.id = id;
         this.name = name;
         this.index = index;
+    }
+
+    public void serialize(ByteBuf byteBuf) {
+
     }
 }

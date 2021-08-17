@@ -1,5 +1,8 @@
 package net.stzups.civref.converter;
 
+import net.stzups.civref.converter.minecraft.Item;
+import net.stzups.civref.converter.realisticbiomes.Yields;
+import org.bukkit.Material;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -23,7 +26,21 @@ public class Converter {
             System.err.println("File at " + textures.getAbsolutePath() + " is not a directory that exists");
             System.exit(1);
         }
+    }
 
+    /**
+     * @param material growable block material
+     * @return yield for given material, or null if the material is not found
+     */
+    public static Yields getYield(Material material) {
+        return null;
+    }
 
+    /**
+     * @param material growable block material
+     * @return seed for given material, or null if the material is not found
+     */
+    public static Item getSeed(Material material) {
+        return null;
     }
 }
