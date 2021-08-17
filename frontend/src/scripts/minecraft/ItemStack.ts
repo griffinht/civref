@@ -1,6 +1,5 @@
 import Item from "./Item.js";
 import Element from "../html/Element.js";
-import {appendTooltip} from "../html/html.js";
 
 export default class ItemStack implements Element {
     item: Item
@@ -12,9 +11,8 @@ export default class ItemStack implements Element {
     }
 
     getElement(): HTMLElement {
-        let element = document.createElement('div')
-        element.append('' + this.amount)
-        appendTooltip(this.item.getElement(), element)
+        let element = this.item.getElement()
+        element.append('x' + this.amount)
         return element
     }
 }

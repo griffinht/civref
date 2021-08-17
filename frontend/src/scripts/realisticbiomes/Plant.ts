@@ -58,8 +58,8 @@ export default class Plant implements Element {
         return plant
     }
 
-    getOutput(time: number, growthState: number): ItemStack[] {
-        let t = this.persistentGrowthPeriod / time
+    getOutput(time: number): ItemStack[] {
+        let t = time / this.persistentGrowthPeriod
 
         let itemStacks: ItemStack[] = []
         for (let y of this.yields) {

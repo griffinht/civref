@@ -1,4 +1,6 @@
 import Yield from "../realisticbiomes/Yield.js";
+import Item from "../minecraft/Item.js";
+import ItemStack from "../minecraft/ItemStack.js";
 
 export function append(tag: string, parent: HTMLElement): HTMLElement {
     let child = document.createElement(tag)
@@ -48,5 +50,17 @@ export function createYields(yields: Yield[]): HTMLElement {
         parent.append(yieldElement)
     }
     appendTooltip(parent, element)
+    return element
+}
+
+export function createItemStacks(itemStacks: ItemStack[]): HTMLElement {
+    let element = document.createElement('div')
+    element.style.border = '1px solid black'
+
+    element.style.display = 'flex'
+    for (let itemStack of itemStacks) {
+        element.append(itemStack.getElement())
+    }
+
     return element
 }
