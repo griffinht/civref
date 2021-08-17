@@ -1,4 +1,3 @@
-import Plants from "./realisticbiomes/Plants.js";
 import Calculator from "./calculator/Calculator.js";
 
 

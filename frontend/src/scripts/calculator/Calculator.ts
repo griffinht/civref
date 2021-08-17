@@ -10,9 +10,26 @@ export default class Calculator {
         let element = document.createElement('div')
         {
             let header = document.createElement('header')
+            header.style.display = 'flex'
+            header.style.justifyContent = 'space-between'
             {
                 let e = document.createElement('h3')
                 e.innerText = 'Input'
+                header.append(e)
+            }
+            {
+                let e = document.createElement('div')
+                e.style.display = 'flex'
+                {
+                    let ee = document.createElement('h3')
+                    ee.innerText = 'Time: '
+                    e.append(ee)
+                }
+                {
+                    let ee = document.createElement('input')
+                    ee.setAttribute('type', 'number')
+                    e.append(ee)
+                }
                 header.append(e)
             }
 
