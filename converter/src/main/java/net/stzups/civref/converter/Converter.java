@@ -16,14 +16,14 @@ import java.util.List;
 public class Converter {
     public static void main(String[] args) throws IOException {
         if (args.length == 1) {
-            textures(new File(args[0]), System.out);
+            generateTextures(new File(args[0]), System.out);
         } else {
             System.err.println("Specify one input directory file");
             System.exit(1);
         }
     }
 
-    private static void textures(File file, OutputStream outputStream) throws IOException {
+    private static void generateTextures(File file, OutputStream outputStream) throws IOException {
         File textures = new File(file, "assets/minecraft/textures");
         if (!textures.exists() || !textures.isDirectory()) {
             System.err.println("File at " + textures.getAbsolutePath() + " is not a directory that exists");
