@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
-group 'net.stzups'
+group 'net.stzups.civref'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -14,17 +14,15 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.29'
-    implementation group: 'io.netty', name: 'netty-buffer', version: '4.1.66.Final'
-    implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
 }
 
 application {
-    mainClass.set('net.stzups.civref.converter.Converter')
+    mainClass.set('net.stzups.civref.bukkit.BukkitConverter')
 }
 
 shadowJar {
-    archiveBaseName.set('converter')
+    archiveBaseName.set('bukkitconverter')
     archiveClassifier.set('')
     archiveVersion.set('')
 }

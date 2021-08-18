@@ -5,7 +5,7 @@ FROM gradle as build
 
 WORKDIR /usr/src/app
 
-COPY . .
+COPY .. .
 
 RUN gradle shadowJar --no-daemon
 

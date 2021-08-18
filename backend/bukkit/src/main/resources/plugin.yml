@@ -1,0 +1,3 @@
+main: net.stzups.civref.bukkit.BukkitConverter
+name: BukkitConverter
+version: 1.0
