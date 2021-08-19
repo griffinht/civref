@@ -1,7 +1,5 @@
 package net.stzups.civref.converter;
 
-import net.stzups.civref.converter.minecraft.Item;
-import net.stzups.civref.converter.realisticbiomes.Yields;
 import net.stzups.civref.converter.spritemap.Sprite;
 import net.stzups.civref.converter.spritemap.SpriteMap;
 import org.bukkit.Material;
@@ -16,14 +14,20 @@ import java.util.List;
 public class Converter {
     public static void main(String[] args) throws IOException {
         if (args.length == 1) {
-            generateTextures(new File(args[0]), System.out);
+            generateTextures(new File(args[0]), System.out, new String[] {
+                    "acacia_door_bottom",
+                    "allium",
+                    "acacia_log",
+                    "bedrock",
+                    "beacon"
+            });
         } else {
             System.err.println("Specify one input directory file");
             System.exit(1);
         }
     }
 
-    private static void generateTextures(File file, OutputStream outputStream) throws IOException {
+    private static void generateTextures(File file, OutputStream outputStream, String[] blocks) throws IOException {
         File textures = new File(file, "assets/minecraft/textures");
         if (!textures.exists() || !textures.isDirectory()) {
             System.err.println("File at " + textures.getAbsolutePath() + " is not a directory that exists");
@@ -34,13 +38,6 @@ public class Converter {
 
         List<Sprite<Object>> sprites = new ArrayList<>();
 
-        String[] blocks = new String[] {
-                "acacia_door_bottom",
-                "allium",
-                "acacia_log",
-                "bedrock",
-                "beacon"
-        };
         File blockDir = new File(textures, "block");
         for (String block : blocks) {
             sprites.add(new Sprite<>(new Object(), ImageIO.read(new File(blockDir, block + ".png"))));

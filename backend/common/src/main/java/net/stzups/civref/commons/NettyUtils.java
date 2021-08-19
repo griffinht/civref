@@ -1,4 +1,4 @@
-package net.stzups.civref.converter;
+package net.stzups.civref.commons;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -17,5 +17,15 @@ public class NettyUtils {
         }
         byteBuf.writeByte((byte) length);
         byteBuf.writeBytes(b);
+    }
+
+    public static <T extends Serializable> void writeArray8(ByteBuf byteBuf, T[] array) {
+        if (array.length > 256) {
+            throw new RuntimeException("Array of length " + array.length + " is too long");
+        }
+        byteBuf.writeByte((byte) array.length);
+        for (T element : array) {
+            element.serialize(byteBuf);
+        }
     }
 }

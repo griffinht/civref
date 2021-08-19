@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+}
+
+version '1.0'
+group 'net.stzups.civref'
+
+repositories {
+    mavenCentral()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+}
+
+dependencies {
+    api 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    api 'io.netty:netty-buffer:4.1.66.Final'
+}

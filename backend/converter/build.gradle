@@ -15,8 +15,9 @@ repositories {
 
 dependencies {
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.29'
-    implementation group: 'io.netty', name: 'netty-buffer', version: '4.1.66.Final'
+    implementation 'io.netty:netty-buffer:4.1.66.Final'
     implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    implementation project(':common')
 }
 
 application {

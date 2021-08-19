@@ -1,10 +1,9 @@
 package net.stzups.civref.converter.realisticbiomes;
 
 import io.netty.buffer.ByteBuf;
+import net.stzups.civref.commons.NettyUtils;
 import net.stzups.civref.converter.Converter;
-import net.stzups.civref.converter.NettyUtils;
 import net.stzups.civref.converter.minecraft.Block;
-import net.stzups.civref.converter.minecraft.Item;
 import org.bukkit.Material;
 
 import java.util.Map;
