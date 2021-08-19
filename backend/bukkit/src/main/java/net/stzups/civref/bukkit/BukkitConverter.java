@@ -5,16 +5,24 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BukkitConverter extends JavaPlugin {
     private String worldName = "world";
     private Material[] materials = new Material[] {
             Material.WHEAT,
             Material.POTATOES,
+            Material.SUGAR_CANE,
+            Material.BEETROOTS,
+            Material.MELON
         };
-    private int iterations = 100;
+    private int iterations = 1000;
 
     @Override
     public void onEnable() {
@@ -31,12 +39,22 @@ public class BukkitConverter extends JavaPlugin {
 
         for (Material material : materials) {
             block.setType(material);
+            // make crop fully grown
+            BlockData data = block.getBlockData();
+            if (data instanceof Ageable ageable) {
+                ageable.setAge(ageable.getMaximumAge());
+                block.setBlockData(ageable);
+            }
 
+            Map<Material, Integer> map = new HashMap<>();
             for (int i = 0; i < iterations; i++) {
                 for (ItemStack itemStack : block.getDrops()) {
-                    getLogger().info(itemStack.toString());
+                    map.put(itemStack.getType(), map.getOrDefault(itemStack.getType(), 0) + itemStack.getAmount());
                 }
-                getLogger().info("done");
+            }
+            getLogger().info("Done for  " + material);
+            for (Map.Entry<Material, Integer> entry : map.entrySet()) {
+                getLogger().info(entry.getKey() + ": " + ((double) entry.getValue() / iterations));
             }
         }
 
