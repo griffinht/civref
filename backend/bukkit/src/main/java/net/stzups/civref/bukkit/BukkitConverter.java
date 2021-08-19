@@ -14,50 +14,53 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.FileOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BukkitConverter extends JavaPlugin {
-    private String worldName = "world";
-    private Material[] materials = new Material[] {
-            Material.WHEAT,
-            Material.POTATOES,
-            Material.SUGAR_CANE,
-            Material.BEETROOTS,
-            Material.MELON
-        };
-    private int iterations = 1000;
-    private OutputStream outputStream;
+    private static final String OUT_FILE = "out";
+    private static final String IN_FILE = OUT_FILE;
+    private static final String WORLD_NAME = "world";
+    private static final int ITERATIONS = 1000;
 
     @Override
     public void onEnable() {
+        ByteBuf b;
         try {
-            outputStream = new FileOutputStream("out");
+            b = getFileByteBuffer(new File(IN_FILE), FileChannel.MapMode.READ_ONLY);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        World world = Bukkit.getWorld(worldName);
-        if (world == null) {
-            world = Bukkit.createWorld(new WorldCreator(worldName)); //todo check if this actually works
-            if (world == null) {
-                throw new RuntimeException("Failed to find or create world with name " + worldName);
-            }
+        Material[] materials = NettyUtils.readArray8(b, new MaterialDeserializer());
+
+
+        World world;
+        try {
+            world = getWorld(WORLD_NAME);
+        } catch (Exception e) {
+            throw new RuntimeException("Exception while getting world with name " + WORLD_NAME,e);
         }
 
         getLogger().info("Using " + world.getName());
         Block block = world.getBlockAt(0, 0, 0);
 
+        getLogger().info("Finding yields of " + materials.length + " materials...");
+
         ByteBuf byteBuf = Unpooled.buffer();
         for (Material material : materials) {
             NettyUtils.writeString8(byteBuf, material.getKey().getKey());
-            NettyUtils.writeArray8(byteBuf, getYields(block, iterations, material));
+            NettyUtils.writeArray8(byteBuf, getYields(block, material));
         }
 
+        getLogger().info("Done, writing to output...");
+
         try {
-            byteBuf.readBytes(outputStream, byteBuf.readableBytes());
+            byteBuf.readBytes(getFileByteBuffer(new File(OUT_FILE), FileChannel.MapMode.READ_WRITE));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,12 +71,10 @@ public class BukkitConverter extends JavaPlugin {
 
     /**
      * Calculates yields for given material
-     *
-     * @param block any existing block that will be used for simulation
-     * @param iterations how many times to drop each item
+     *  @param block any existing block that will be used for simulation
      * @param material material to test for
      */
-    private static Yield[] getYields(Block block, int iterations, Material material) {
+    private static Yield[] getYields(Block block, Material material) {
         block.setType(material);
         // make crop fully grown
         BlockData data = block.getBlockData();
@@ -83,7 +84,7 @@ public class BukkitConverter extends JavaPlugin {
         }
 
         Map<Material, Integer> map = new HashMap<>();
-        for (int i = 0; i < iterations; i++) {
+        for (int i = 0; i < BukkitConverter.ITERATIONS; i++) {
             for (ItemStack itemStack : block.getDrops()) {
                 map.put(itemStack.getType(), map.getOrDefault(itemStack.getType(), 0) + itemStack.getAmount());
             }
@@ -91,8 +92,27 @@ public class BukkitConverter extends JavaPlugin {
         Yield[] yields = new Yield[map.size()];
         int i = 0;
         for (Map.Entry<Material, Integer> entry : map.entrySet()) {
-            yields[i++] = new Yield(entry.getKey(), (float) entry.getValue() / iterations);
+            yields[i++] = new Yield(entry.getKey(), (float) entry.getValue() / BukkitConverter.ITERATIONS);
         }
         return yields;
+    }
+
+    private static ByteBuf getFileByteBuffer(File file, FileChannel.MapMode mode) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        FileChannel fileChannel = fileInputStream.getChannel();
+        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+        return Unpooled.wrappedBuffer(mappedByteBuffer);
+    }
+
+    private static World getWorld(String name) throws Exception {
+        World world = Bukkit.getWorld(WORLD_NAME);
+        if (world == null) {
+            world = Bukkit.createWorld(new WorldCreator(WORLD_NAME)); //todo check if this actually works
+            if (world == null) {
+                throw new Exception("Bukkit#createWorld returned null");
+            }
+        }
+
+        return world;
     }
 }
