@@ -12,9 +12,7 @@ public class BukkitConverter extends JavaPlugin {
     private String worldName = "world";
     private Material[] materials = new Material[] {
             Material.WHEAT,
-            Material.POTATO,
-            Material.PODZOL,
-            Material.ACACIA_BOAT,
+            Material.POTATOES,
         };
     private int iterations = 100;
 
@@ -41,5 +39,8 @@ public class BukkitConverter extends JavaPlugin {
                 getLogger().info("done");
             }
         }
+
+        getLogger().info("Done, shutting down");
+        Bukkit.shutdown();
     }
 }
