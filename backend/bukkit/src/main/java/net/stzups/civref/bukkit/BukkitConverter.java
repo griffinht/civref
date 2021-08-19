@@ -7,7 +7,6 @@ import net.stzups.civref.commons.Yield;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.WorldCreator;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
@@ -15,9 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,18 +27,21 @@ public class BukkitConverter extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        ByteBuf b;
+        getLogger().info("Reading materials from " + IN_FILE + "...");
+        Material[] materials;
         try {
-            b = getFileByteBuffer(new File(IN_FILE), FileChannel.MapMode.READ_ONLY);
+            materials = NettyUtils.readArray8(
+                    NettyUtils.getFileByteBuffer(new File(IN_FILE), FileChannel.MapMode.READ_ONLY),
+                    byteBuf -> Material.valueOf(NettyUtils.readString8(byteBuf)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Material[] materials = NettyUtils.readArray8(b, new MaterialDeserializer());
 
+        getLogger().info("Getting block from " + WORLD_NAME + "...");
 
         World world;
         try {
-            world = getWorld(WORLD_NAME);
+            world = WorldUtil.getWorld(WORLD_NAME);
         } catch (Exception e) {
             throw new RuntimeException("Exception while getting world with name " + WORLD_NAME,e);
         }
@@ -57,10 +57,10 @@ public class BukkitConverter extends JavaPlugin {
             NettyUtils.writeArray8(byteBuf, getYields(block, material));
         }
 
-        getLogger().info("Done, writing to output...");
+        getLogger().info("Writing to output...");
 
         try {
-            byteBuf.readBytes(getFileByteBuffer(new File(OUT_FILE), FileChannel.MapMode.READ_WRITE));
+            byteBuf.readBytes(NettyUtils.getFileByteBuffer(new File(OUT_FILE), FileChannel.MapMode.READ_WRITE));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,22 +97,5 @@ public class BukkitConverter extends JavaPlugin {
         return yields;
     }
 
-    private static ByteBuf getFileByteBuffer(File file, FileChannel.MapMode mode) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(file);
-        FileChannel fileChannel = fileInputStream.getChannel();
-        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
-        return Unpooled.wrappedBuffer(mappedByteBuffer);
-    }
 
-    private static World getWorld(String name) throws Exception {
-        World world = Bukkit.getWorld(WORLD_NAME);
-        if (world == null) {
-            world = Bukkit.createWorld(new WorldCreator(WORLD_NAME)); //todo check if this actually works
-            if (world == null) {
-                throw new Exception("Bukkit#createWorld returned null");
-            }
-        }
-
-        return world;
-    }
 }

@@ -2,6 +2,6 @@ package net.stzups.civref.commons;
 
 import io.netty.buffer.ByteBuf;
 
-public interface Deserializable<T> {
+public interface Deserializer<T> {
     public T deserialize(ByteBuf byteBuf);
 }

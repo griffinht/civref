@@ -3,6 +3,11 @@ package net.stzups.civref.commons;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 
 public class NettyUtils {
@@ -33,7 +38,7 @@ public class NettyUtils {
         }
     }
 
-    public static <A, T extends Deserializable<A>> A[] readArray8(ByteBuf byteBuf, T deserializer) {
+    public static <A, T extends Deserializer<A>> A[] readArray8(ByteBuf byteBuf, T deserializer) {
         int length = byteBuf.readUnsignedByte();
         A[] array = (A[]) new Object[length];
 
@@ -42,5 +47,15 @@ public class NettyUtils {
         }
 
         return array;
+    }
+
+    /**
+     * Get ByteBuf to read or write from specified file
+     */
+    public static ByteBuf getFileByteBuffer(File file, FileChannel.MapMode mode) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        FileChannel fileChannel = fileInputStream.getChannel();
+        MappedByteBuffer mappedByteBuffer = fileChannel.map(mode, 0, file.length());
+        return Unpooled.wrappedBuffer(mappedByteBuffer);
     }
 }
