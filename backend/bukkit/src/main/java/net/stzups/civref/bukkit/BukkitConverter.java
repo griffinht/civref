@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.HashMap;
@@ -27,6 +28,20 @@ public class BukkitConverter extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        //test
+        try {
+            Material[] materials = new Material[] {
+                    Material.WHEAT,
+                    Material.BEETROOTS,
+                    Material.POTATOES
+            };
+            ByteBuf byteBuf = Unpooled.buffer();
+            NettyUtils.writeArray8(byteBuf, materials, (b, material) -> NettyUtils.writeString8(b, material.name()));
+            byteBuf.readBytes(new FileOutputStream(IN_FILE), byteBuf.readableBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         getLogger().info("Reading materials from " + IN_FILE + "...");
         Material[] materials;
         try {
@@ -60,7 +75,7 @@ public class BukkitConverter extends JavaPlugin {
         getLogger().info("Writing to output...");
 
         try {
-            byteBuf.readBytes(NettyUtils.getFileByteBuffer(new File(OUT_FILE), FileChannel.MapMode.READ_WRITE));
+            byteBuf.readBytes(new FileOutputStream(OUT_FILE), byteBuf.readableBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

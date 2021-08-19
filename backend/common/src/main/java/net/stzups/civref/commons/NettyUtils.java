@@ -4,9 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.MappedByteBuffer;
+import java.io.RandomAccessFile;
+import java.lang.reflect.Array;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 
@@ -38,12 +38,26 @@ public class NettyUtils {
         }
     }
 
+    public static <A, T extends Serializer<A>> void writeArray8(ByteBuf byteBuf, A[] array, T serializer) {
+        if (array.length > 256) {
+            throw new RuntimeException("Array of length " + array.length + " is too long");
+        }
+        byteBuf.writeByte((byte) array.length);
+        for (A element : array) {
+            serializer.serialize(byteBuf, element);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     public static <A, T extends Deserializer<A>> A[] readArray8(ByteBuf byteBuf, T deserializer) {
         int length = byteBuf.readUnsignedByte();
-        A[] array = (A[]) new Object[length];
+        A[] array = null;
 
         for (int i = 0; i < length; i++) {
-            array[i] = deserializer.deserialize(byteBuf);
+            A object = deserializer.deserialize(byteBuf);
+            // :(
+            if (array == null) array = (A[]) Array.newInstance(object.getClass(), length);
+            array[i] = object;
         }
 
         return array;
@@ -53,9 +67,6 @@ public class NettyUtils {
      * Get ByteBuf to read or write from specified file
      */
     public static ByteBuf getFileByteBuffer(File file, FileChannel.MapMode mode) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(file);
-        FileChannel fileChannel = fileInputStream.getChannel();
-        MappedByteBuffer mappedByteBuffer = fileChannel.map(mode, 0, file.length());
-        return Unpooled.wrappedBuffer(mappedByteBuffer);
+        return Unpooled.wrappedBuffer(new RandomAccessFile(file, mode == FileChannel.MapMode.READ_ONLY ? "r" : "rw").getChannel().map(mode, 0, file.length()));
     }
 }
